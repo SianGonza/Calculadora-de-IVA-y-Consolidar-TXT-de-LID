@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
+from tkinter.filedialog import askdirectory
 #import openpyxl
 
 #leer el archivo Formato.xlsx
@@ -10,7 +11,7 @@ Comprovante_V = pd.read_excel('Formato.xlsx', sheet_name='Comprobante_V')
 Alicuota_V = pd.read_excel('Formato.xlsx', sheet_name='Alicuota_V')
 
 #leer todos lor achivos .txt no vacíos de la carpeta Consolidar
-path = 'Consolidar'
+path = askdirectory()
 Archivos = os.listdir(path)
 Archivos_txt = [f for f in Archivos if (os.stat(path + "/" + f).st_size != 0 and f.endswith(".txt"))]
 del Archivos
@@ -123,6 +124,7 @@ del Alicuota_desc_V, Alicuota_V, ALIC , Alicuota_txt_V
 Consolidado_ALIC_V['Importe neto gravado'] = Consolidado_ALIC_V['Importe neto gravado']/100
 Consolidado_ALIC_V['Impuesto liquidado'] = Consolidado_ALIC_V['Impuesto liquidado']/100
 #Si el Tipo de comprobante es igual a (3 , 8 , 13 , 21 , 38 , 43 , 44 , 48 , 50 , 53 , 70 , 90 , 110 , 112 , 113 , 114 , 119 , 203 , 208 , 213) entonces multiplica el valor de las columnas 'Importe neto gravado' y 'Impuesto liquidado' por -1
+Consolidado_ALIC_V.loc[Consolidado_ALIC_V['Tipo de comprobante'].isin([3 , 8 , 13 , 21 , 38 , 43 , 44 , 48 , 50 , 53 , 70 , 90 , 110 , 112 , 113 , 114 , 119 , 203 , 208 , 213]) , ['Importe neto gravado' , 'Impuesto liquidado']] *= -1
 
 #crear Tablas dinamicas para todos los dataframe en base a la columnas 'Archivo' y 'Tipo de comprobante' 'Alícuota de IVA' y eliminar las columnas que no se necesitan
 
