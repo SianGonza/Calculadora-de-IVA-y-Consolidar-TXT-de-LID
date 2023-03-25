@@ -7,7 +7,7 @@ from tkinter.filedialog import askdirectory
 #leer el archivo Formato.xlsx
 Comprobante_C = pd.read_excel('Formato.xlsx', sheet_name='Comprobante_C')
 Alicuota_C = pd.read_excel('Formato.xlsx', sheet_name='Alicuota_C')
-Comprovante_V = pd.read_excel('Formato.xlsx', sheet_name='Comprobante_V')
+Comprobante_V = pd.read_excel('Formato.xlsx', sheet_name='Comprobante_V')
 Alicuota_V = pd.read_excel('Formato.xlsx', sheet_name='Alicuota_V')
 
 #leer todos lor achivos .txt no vacíos de la carpeta Consolidar
@@ -37,13 +37,13 @@ del Archivos_txt
 #convertir las Columna 'Descripcion' de los dataframes Comprobante y Alicuota en listas
 Comprobante_desc_C = Comprobante_C['Descripcion'].tolist()
 Alicuota_desc_C = Alicuota_C['Descripcion'].tolist()
-Comprobante_desc_V = Comprovante_V['Descripcion'].tolist()
+Comprobante_desc_V = Comprobante_V['Descripcion'].tolist()
 Alicuota_desc_V = Alicuota_V['Descripcion'].tolist()
 
 #convertir las Columna 'Ancho' de los dataframes Comprobante y Alicuota en listas
 Comprobante_C = Comprobante_C['Ancho'].tolist()
 Alicuota_C = Alicuota_C['Ancho'].tolist()
-Comprobante_V = Comprovante_V['Ancho'].tolist()
+Comprobante_V = Comprobante_V['Ancho'].tolist()
 Alicuota_V = Alicuota_V['Ancho'].tolist()
 
 #crear un dataframe vacio para conslidar
