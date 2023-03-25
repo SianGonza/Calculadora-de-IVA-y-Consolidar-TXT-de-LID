@@ -6,6 +6,7 @@ from tkinter.filedialog import askdirectory
 
 #leer el archivo Formato.xlsx
 Comprobante_C = pd.read_excel('Formato.xlsx', sheet_name='Comprobante_C')
+Alicuota_C = pd.read_excel('Formato.xlsx', sheet_name='Alicuota_C')
 Comprobante_V = pd.read_excel('Formato.xlsx', sheet_name='Comprobante_V')
 Alicuota_V = pd.read_excel('Formato.xlsx', sheet_name='Alicuota_V')
 
@@ -17,6 +18,7 @@ del Archivos
 
 #crear una nueva variable con los Archivos_txt que contengan la palabra 'Alicuota'
 Alicuota_txt = [i for i in Archivos_txt if 'Alicuota' in i]
+Alicuota_txt_C = [i for i in Alicuota_txt if '- LIC -' in i]
 Alicuota_txt_V = [i for i in Alicuota_txt if '- LIV -' in i]
 del Alicuota_txt
 
@@ -28,13 +30,15 @@ Comprobante_txt_V = [i for i in Comprobante_txt if '- LIV -' in i]
 #Eliminar Variables no usadas
 del Archivos_txt
 
-#convertir las Columna 'Descripcion' de los dataframes Comprobante
+#convertir las Columna 'Descripcion' de los dataframes Comprobante y Alicuota en listas
 Comprobante_desc_C = Comprobante_C['Descripcion'].tolist()
+Alicuota_desc_C = Alicuota_C['Descripcion'].tolist()
 Comprobante_desc_V = Comprobante_V['Descripcion'].tolist()
 Alicuota_desc_V = Alicuota_V['Descripcion'].tolist()
 
 #convertir las Columna 'Ancho' de los dataframes Comprobante
 Comprobante_C = Comprobante_C['Ancho'].tolist()
+Alicuota_C = Alicuota_C['Ancho'].tolist()
 Comprobante_V = Comprobante_V['Ancho'].tolist()
 Alicuota_V = Alicuota_V['Ancho'].tolist()
 
@@ -50,7 +54,7 @@ for i in Comprobante_txt_C:
     CBTE['CUIT contribuyente'] = CBTE['Archivo'].str.split('-').str[1].str.strip()
     #CBTE['LIV/LIC'] = CBTE['Archivo'].str.split('-').str[2].str.strip()
     CBTE['Periodo'] = CBTE['Archivo'].str.split('-').str[3].str.strip()
-    CBTE['Nombre del contribuyente'] = CBTE['Archivo'].str.split('-').str[4].str.strip().str.replace(' SOS.txt', '')
+    CBTE['Nombre del contribuyente'] = CBTE['Archivo'].str.split('-').str[4].str.strip().str.replace(' SOS.txt', '' , regex=False)
     Consolidado_CBTE_C = pd.concat([Consolidado_CBTE_C, CBTE], axis=0)
 del Comprobante_desc_C, Comprobante_C, CBTE , Comprobante_txt_C , i
 #Dividir las columnas 'Importe total de la operación' , 'Importe total de conceptos que no integran el precio neto gravado' , 'Importe de operaciones exentas' , 'Importe de percepciones o pagos a cuenta del Impuesto al Valor Agregado' , 'Importe de percepciones o pagos a cuenta de otros impuestos nacionales' , 'Importe de percepciones de Ingresos Brutos' , 'Importe de percepciones de Impuestos Municipales' , 'Importe de Impuestos Internos' , 'Crédito Fiscal Computable' , 'Otros Tributos' y 'IVA comisión' por 100
@@ -111,7 +115,7 @@ for i in Alicuota_txt_V:
     ALIC['CUIT contribuyente'] = ALIC['Archivo'].str.split('-').str[1].str.strip()
     #ALIC['LIV/LIC'] = ALIC['Archivo'].str.split('-').str[2].str.strip()
     ALIC['Periodo'] = ALIC['Archivo'].str.split('-').str[3].str.strip()
-    ALIC['Nombre del contribuyente'] = ALIC['Archivo'].str.split('-').str[4].str.strip().str.replace(' Alicuota SOS.txt' , '')
+    ALIC['Nombre del contribuyente'] = ALIC['Archivo'].str.split('-').str[4].str.strip().str.replace(' Alicuota SOS.txt' , '' , regex=False)
     Consolidado_ALIC_V = pd.concat([Consolidado_ALIC_V, ALIC], axis=0)
 del Alicuota_desc_V, Alicuota_V, ALIC , Alicuota_txt_V , i
 #Dividir las columnas 'Importe neto gravado' y 'Impuesto liquidado' por 100
@@ -144,6 +148,8 @@ Saldo = Saldo.fillna(0)
 #Crear la columna de 'Saldo Técnico' como la resta de las columnas 'Impuesto liquidado' y 'Crédito Fiscal Computable'
 Saldo['Saldo Técnico'] = Saldo['Impuesto liquidado'] - Saldo['Crédito Fiscal Computable']
 
+#transformar los index en columnas
+Saldo.reset_index(inplace=True)
 
 #Exportar los dataframes consolidados a un archivo excel
 # Archivo_final = pd.ExcelWriter('Consolidado.xlsx', engine='openpyxl')
@@ -152,3 +158,4 @@ Saldo['Saldo Técnico'] = Saldo['Impuesto liquidado'] - Saldo['Crédito Fiscal C
 # Consolidado_CBTE_V.to_excel(Archivo_final, sheet_name='CBTE_V' , index=False)
 # Consolidado_CBTE_VP.to_excel(Archivo_final, sheet_name='CBTE_V TD')
 # Archivo_final.save()
+Saldo.to_excel('Saldo.xlsx', index=False)
