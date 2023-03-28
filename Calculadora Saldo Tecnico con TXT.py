@@ -157,10 +157,15 @@ def CalculaSaldos():
     Retenciones = ProcesarRetenciones()
 
     Saldo = pd.merge(left=Saldo,
-                    right=Saldos_iniciales[['CUIT contribuyente' , 'ST Inicial' , 'SLD Inicial']],
+                    right=Saldos_iniciales[['CUIT contribuyente' , 'Cliente' , 'ST Inicial' , 'SLD Inicial']],
                     how='outer',
                     on='CUIT contribuyente'
                     )
+
+    # si existen las columnas clinete_x y cliente_y, combinarlas en una sola columna llamada 'Cliente'
+    Saldo['Cliente'] = Saldo['Cliente_x'].fillna(Saldo['Cliente_y'])
+    # Eliminar las columnas 'Cliente_x' y 'Cliente_y'
+    Saldo = Saldo.drop(['Cliente_x', 'Cliente_y'], axis=1)
 
     Saldo = pd.merge(left=Saldo,
                     right=Retenciones[['CUIT contribuyente', 'Cliente' , 'Importe Ret./Perc.']],
