@@ -4,13 +4,10 @@ import os
 from tkinter.filedialog import askdirectory , askopenfile
 
 def ProcesarRetenciones():
-
     #Crear un DataFrame vacío
-
     Conslidado = pd.DataFrame()
 
     # cargar todos los XLS de la carpeta 'RET' en el DataFrame
-
     Retenciones = askdirectory(title="Selecionar Archivo de Retenciones")
 
     for file in os.listdir(Retenciones):
@@ -41,6 +38,8 @@ def SaldosIniciales():
     Saldos_iniciales = pd.read_excel(Saldos_iniciales.name)
     Saldos_iniciales = Saldos_iniciales.rename(columns={'Saldo Técnico':'ST Inicial' , 'SLD':'SLD Inicial'})
     Saldos_iniciales['CUIT contribuyente'] = Saldos_iniciales['CUIT contribuyente'].astype('int64')
+
+    return Saldos_iniciales
 
 def ProcesarTXT():
     #leer el archivo Formato.xlsx
@@ -78,11 +77,11 @@ def ProcesarTXT():
     for i in Alicuota_txt_C:
         ALIC = pd.read_fwf(path + '/' + i, widths=Alicuota_C, header=None , encoding=("latin1") , names = Alicuota_desc_C)
         ALIC['Archivo'] = i
-        #Dividir la columna 'Archivo' con el separador '-' y crear columnas con los valores obtenidos como 'Fin Cuit', 'CUIT contribuyente', 'Periodo' y 'Nombre del contribuyente' y eliminar los espacios en blanco al inicio y al final de cada valor
+        #Dividir la columna 'Archivo' con el separador '-' y crear columnas con los valores obtenidos como 'Fin Cuit', 'CUIT contribuyente', 'Periodo' y 'Cliente' y eliminar los espacios en blanco al inicio y al final de cada valor
         ALIC['Fin Cuit'] = ALIC['Archivo'].str.split('-').str[0].str.strip()
         ALIC['CUIT contribuyente'] = ALIC['Archivo'].str.split('-').str[1].str.strip().astype('int64')
         ALIC['Periodo'] = ALIC['Archivo'].str.split('-').str[3].str.strip()
-        ALIC['Nombre del contribuyente'] = ALIC['Archivo'].str.split('-').str[4].str.strip().str.replace(' Alicuota SOS.txt', '' , regex=False)
+        ALIC['Cliente'] = ALIC['Archivo'].str.split('-').str[4].str.strip().str.replace(' Alicuota SOS.txt', '' , regex=False)
         #Eliminar la columna 'Archivo'
         ALIC = ALIC.drop(['Archivo'], axis=1)
         Consolidado_ALIC_C = pd.concat([Consolidado_ALIC_C, ALIC], axis=0)
@@ -101,11 +100,11 @@ def ProcesarTXT():
     for i in Alicuota_txt_V:
         ALIC = pd.read_fwf(path + '/' + i, widths=Alicuota_V, header=None , encoding=("latin1") , names = Alicuota_desc_V)
         ALIC['Archivo'] = i
-        #Dividir la columna 'Archivo' con el separador '-' y crear columnas con los valores obtenidos como 'Fin Cuit', 'CUIT contribuyente', 'Periodo' y 'Nombre del contribuyente' y eliminar los espacios en blanco al inicio y al final de cada valor
+        #Dividir la columna 'Archivo' con el separador '-' y crear columnas con los valores obtenidos como 'Fin Cuit', 'CUIT contribuyente', 'Periodo' y 'Cliente' y eliminar los espacios en blanco al inicio y al final de cada valor
         ALIC['Fin Cuit'] = ALIC['Archivo'].str.split('-').str[0].str.strip()
         ALIC['CUIT contribuyente'] = ALIC['Archivo'].str.split('-').str[1].str.strip().astype('int64')
         ALIC['Periodo'] = ALIC['Archivo'].str.split('-').str[3].str.strip()
-        ALIC['Nombre del contribuyente'] = ALIC['Archivo'].str.split('-').str[4].str.strip().str.replace(' Alicuota SOS.txt', '' , regex=False)
+        ALIC['Cliente'] = ALIC['Archivo'].str.split('-').str[4].str.strip().str.replace(' Alicuota SOS.txt', '' , regex=False)
         #Eliminar la columna 'Archivo'
         ALIC = ALIC.drop(['Archivo'], axis=1)
         Consolidado_ALIC_V = pd.concat([Consolidado_ALIC_V, ALIC], axis=0)
@@ -116,17 +115,17 @@ def ProcesarTXT():
     #Si el Tipo de comprobante es igual a (3 , 8 , 13 , 21 , 38 , 43 , 44 , 48 , 50 , 53 , 70 , 90 , 110 , 112 , 113 , 114 , 119 , 203 , 208 , 213) entonces multiplica el valor de las columnas 'Importe neto gravado' y 'Impuesto liquidado' por -1
     Consolidado_ALIC_V.loc[Consolidado_ALIC_V['Tipo de comprobante'].isin([3 , 8 , 13 , 21 , 38 , 43 , 44 , 48 , 50 , 53 , 70 , 90 , 110 , 112 , 113 , 114 , 119 , 203 , 208 , 213]) , ['Importe neto gravado' , 'Impuesto liquidado']] *= -1
 
-    #crear Tablas dinamicas para todos los dataframe en base a la columnas 'Fin Cuit', 'CUIT contribuyente', 'Periodo' , 'Nombre del contribuyente' y eliminar las columnas que no se necesitan
+    #crear Tablas dinamicas para todos los dataframe en base a la columnas 'Fin Cuit', 'CUIT contribuyente', 'Periodo' , 'Cliente' y eliminar las columnas que no se necesitan
 
 
-    Consolidado_ALIC_CP = Consolidado_ALIC_C.pivot_table(index=['Fin Cuit', 'CUIT contribuyente', 'Periodo' , 'Nombre del contribuyente'], 
+    Consolidado_ALIC_CP = Consolidado_ALIC_C.pivot_table(index=['Fin Cuit', 'CUIT contribuyente', 'Periodo' , 'Cliente'], 
                                                         aggfunc='sum')
 
     #Eliminar columnas 'Código de documento del vendedor' , 'Número de comprobante' , 'Número de identificación del vendedor' , 'Punto de venta'
     Consolidado_ALIC_CP = Consolidado_ALIC_CP[['Impuesto liquidado']]
     del Consolidado_ALIC_C
 
-    Consolidado_ALIC_VP = Consolidado_ALIC_V.pivot_table(index=['Fin Cuit', 'CUIT contribuyente', 'Periodo' , 'Nombre del contribuyente'], 
+    Consolidado_ALIC_VP = Consolidado_ALIC_V.pivot_table(index=['Fin Cuit', 'CUIT contribuyente', 'Periodo' , 'Cliente'], 
                                                         aggfunc='sum')
 
     #Eliminar columnas 'Número de comprobante' , 'Punto de venta'
@@ -140,7 +139,7 @@ def ProcesarTXT():
     # Consolidar los dataframes Consolidado_CBTE_CP y Consolidado_ALIC_VP en base a la columna 'index' en un nuevo dataframe llamado 'Saldo'
     Saldo = pd.merge(Consolidado_ALIC_CP, 
                     Consolidado_ALIC_VP, 
-                    on=['Fin Cuit', 'CUIT contribuyente', 'Periodo' , 'Nombre del contribuyente'], 
+                    on=['Fin Cuit', 'CUIT contribuyente', 'Periodo' , 'Cliente'], 
                     how='outer')
 
     # Reemplazar los valores nulos por 0
@@ -151,11 +150,11 @@ def ProcesarTXT():
 
     return Saldo
 
-Saldos_iniciales = SaldosIniciales() 
-Saldo = ProcesarTXT()
-Retenciones = ProcesarRetenciones()
-
 def CalculaSaldos():
+
+    Saldo = ProcesarTXT()
+    Saldos_iniciales = SaldosIniciales() 
+    Retenciones = ProcesarRetenciones()
 
     Saldo = pd.merge(left=Saldo,
                     right=Saldos_iniciales[['CUIT contribuyente' , 'ST Inicial' , 'SLD Inicial']],
@@ -164,9 +163,14 @@ def CalculaSaldos():
                     )
 
     Saldo = pd.merge(left=Saldo,
-                    right=Retenciones[['CUIT contribuyente', 'Importe Ret./Perc.']],
+                    right=Retenciones[['CUIT contribuyente', 'Cliente' , 'Importe Ret./Perc.']],
                     on='CUIT contribuyente',
                     how='outer')
+    
+    # si existen las columnas clinete_x y cliente_y, combinarlas en una sola columna llamada 'Cliente'
+    Saldo['Cliente'] = Saldo['Cliente_x'].fillna(Saldo['Cliente_y'])
+    # Eliminar las columnas 'Cliente_x' y 'Cliente_y'
+    Saldo = Saldo.drop(['Cliente_x', 'Cliente_y'], axis=1)
 
     Saldo = Saldo.fillna(0)
 
@@ -230,7 +234,7 @@ def CalculaSaldos():
     # Eliminar columna temporal 'Temp Pagar < 2P'
     del Saldo['Temp Pagar < 2P']
 
-    Saldo = Saldo[['Fin Cuit' , 'CUIT contribuyente' , 'Periodo' , 'Nombre del contribuyente' , 'ST Inicial' , 'SLD Inicial' , 'Impuesto liquidado DF' , 'Impuesto liquidado CF' , 'Importe Ret./Perc.' , 'IVA a pagar' , 'Saldo Técnico' , 'SLD']]
+    Saldo = Saldo[['Fin Cuit' , 'CUIT contribuyente' , 'Periodo' , 'Cliente' , 'ST Inicial' , 'SLD Inicial' , 'Impuesto liquidado DF' , 'Impuesto liquidado CF' , 'Importe Ret./Perc.' , 'IVA a pagar' , 'Saldo Técnico' , 'SLD']]
 
     #Exportar los dataframes consolidados a un archivo excel
     # Archivo_final = pd.ExcelWriter('Consolidado.xlsx', engine='openpyxl')
@@ -246,4 +250,4 @@ def CalculaSaldos():
 
     return Saldo
 
-Saldo = CalculaSaldos()
+SaldoIVA = CalculaSaldos()
