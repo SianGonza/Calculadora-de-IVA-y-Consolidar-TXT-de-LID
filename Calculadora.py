@@ -253,9 +253,9 @@ def CalculaSaldos():
     # Consolidado_ALIC_VP.to_excel(Archivo_final, sheet_name='ALIC_V TD')
     # Archivo_final.save()
 
+    Saldo = Saldo.sort_values(by=["Fin Cuit" , "CUIT contribuyente"])
+    Saldo.to_excel("Resultados Calculadora de IVA.xlsx" , index=False)
     return Saldo
 
-SaldoIVA = CalculaSaldos()
-
-#SaldoIVA = SaldoIVA.sort_values(by=["Fin Cuit" , "CUIT contribuyente"])
-#SaldoIVA.to_excel("Resultados Calculadora de IVA.xlsx" , index=False)
+if __name__ == "__main__":
+    SaldoIVA = CalculaSaldos()
