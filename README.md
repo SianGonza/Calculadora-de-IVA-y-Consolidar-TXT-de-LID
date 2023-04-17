@@ -4,6 +4,8 @@ Script para realizar masivamente los cálculos de los Saldos de IVA en base a lo
 
 ## El licenciamiento es con GPL (es decir que no se puede distribuir comercialmente, solamente GRATIS). y si se utiliza este el código, su derivado también debe ser distribuido abierta y gratuitamente. 
 
+Para ejecutar el Programa ejecutar el "Calculadora de Saldos de IVA V 1.0 Setup.exe" y seguir los pasos de instalación. en caso de no existir se debe seguir con los pasos de ejecución del Script.
+
 Los pasos para ejecutar el Script suele ser el siguiente:
 
     ֎ Descargarse Python (https://www.python.org/downloads/)
