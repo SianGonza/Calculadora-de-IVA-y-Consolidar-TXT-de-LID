@@ -4,7 +4,7 @@ Script para realizar masivamente los cálculos de los Saldos de IVA en base a lo
 
 ## El licenciamiento es con GPL (es decir que no se puede distribuir comercialmente, solamente GRATIS). y si se utiliza este el código, su derivado también debe ser distribuido abierta y gratuitamente. 
 
-Para ejecutar el Programa ejecutar el "Calculadora de Saldos de IVA V 1.0 Setup.exe" y seguir los pasos de instalación. en caso de no existir se debe seguir con los pasos de ejecución del Script.
+Para ejecutar el Programa ejecutar el 'Calculadora de Saldos de IVA V 1.0 Setup.exe' y seguir los pasos de instalación. en caso de no existir se debe seguir con los pasos de ejecución del Script.
 
 Los pasos para ejecutar el Script suele ser el siguiente:
 
@@ -36,6 +36,20 @@ Los pasos para ejecutar el Script suele ser el siguiente:
                 git clone URLDelRepositorio
 
 
+Particularidades para la ejecución correcta del Programa:
+
+    ֎ Los formatos de los nombres TXT de Compras y ventas tiene que ser:
+        'Fin de CUIT' - 'CUIT' - 'LIV o LIC según corresponda' - 'Nombre del Contribuyente.txt' para el TXT de Comprobantes
+            Ejemplo: 9 - 20374730429 - LIV - 202212 - BUSTOS AGUSTIN.txt
+        'Fin de CUIT' - 'CUIT' - 'LIV o LIC según corresponda' - 'Nombre del Contribuyente SOS.txt' para el TXT de Alícuotas
+            Ejemplo: 9 - 20374730429 - LIV - 202212 - BUSTOS AGUSTIN SOS.txt
+    ֎ El Excel de Saldos Iniciales debe contener como mínimo las columnas:
+        'CUIT contribuyente' , 'Saldo Técnico' y 'SLD'
+    ֎ Los nombres de las Retenciones/Percepciones debe ser:
+        'Fin de CUIT' - '216 o 767 según corresponda' - 'Periodo en formato AAAAMM' - 'CUIT' - 'Nombre del Contribuyente.xls' para el TXT de Comprobantes
+            Ejemplo: 9 - 216 - 202212 - 20374730429 - BUSTOS AGUSTIN.xls
+
+
 Obviamente no me hago cargo del uso indebido del Scrip.
 
 y si lo compartís debes hacelo gratis, y si querés podes mencioname también para que mas gente se meta en el mundo de la programacion/automatización con Python/RPA y/o mostrale mis videos para que vean que cosas pueden hacer)
@@ -53,11 +67,11 @@ Cualquier cosa pueden contactarme en:
 ## 💰 Acepto donaciones para mantener el proyecto libre y gratuito
 <br/>
 
-[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/agustinbustosp) <!-- [<img src="http://ketekipo.com.ar/wp-content/uploads/2020/05/mercado-pago.png" alt="Image" height="30" width="100\">](https://paypal.me/paypal.me/agustinbustosp) -->
+[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/agustinbustosp) <!-- [<img src='http://ketekipo.com.ar/wp-content/uploads/2020/05/mercado-pago.png' alt='Image' height='30' width='100\'>](https://paypal.me/paypal.me/agustinbustosp) -->
 
 <!-- [![Cafecito](https://img.shields.io/badge/-Cafecito-9cf?style=for-the-badge)](https://cafecito.app/abustos) -->
 
-[<img src="https://santanderpost.com.ar/wp-content/uploads/2022/02/Cafecito-.jpg" alt="Image" height="30" width="65\">](https://cafecito.app/abustos)
+[<img src='https://santanderpost.com.ar/wp-content/uploads/2022/02/Cafecito-.jpg' alt='Image' height='30' width='65\'>](https://cafecito.app/abustos)
 
 <br/>
  
