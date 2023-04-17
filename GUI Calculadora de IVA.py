@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import tkinter as tk
 import tkinter.ttk as ttk
-import BIN.Calculadora
+import BIN.Calculadora as Calculadora
 
 
 
@@ -42,7 +42,7 @@ class DiseñoGuiApp:
             text='por Agustín Bustos Piasentini\nhttps://www.Agustin-Bustos-Piasentini.com.ar/\n')
         Label_2.pack(expand="true", side="top")
         self.Mensual_XLS = ttk.Button(Toplevel_1)
-        self.Mensual_XLS.configure(text='Seleccionar los Archivos' , command=BIN.Calculadora.CalculaSaldos)
+        self.Mensual_XLS.configure(text='Seleccionar los Archivos' , command=Calculadora.CalculaSaldos)
         self.Mensual_XLS.pack(expand="true", pady=4, side="top")
 
         # Main widget
