@@ -256,9 +256,9 @@ def CalculaSaldos():
 
     return Saldo
 
-SaldoIVA = CalculaSaldos()
+if __name__ == "__main__":
 
-#SaldoIVA = SaldoIVA.sort_values(by=["Fin Cuit" , "CUIT contribuyente"])
-#SaldoIVA.to_excel("Resultados Calculadora de IVA.xlsx" , index=False)
-
-SaldoIVA.to_excel('SaldoIVA.xlsx', index=False)
+    SaldoIVA = CalculaSaldos()
+    #SaldoIVA = SaldoIVA.sort_values(by=["Fin Cuit" , "CUIT contribuyente"])
+    #SaldoIVA.to_excel("Resultados Calculadora de IVA.xlsx" , index=False)
+    SaldoIVA.to_excel('SaldoIVA.xlsx', index=False)
