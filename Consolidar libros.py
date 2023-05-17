@@ -144,8 +144,105 @@ Consolidado_ALIC_VP = Consolidado_ALIC_V.pivot_table(index=['Archivo', 'Tipo de 
 #Eliminar columnas 'Número de comprobante' , 'Punto de venta'
 Consolidado_ALIC_VP = Consolidado_ALIC_VP.drop(['Número de comprobante', 'Punto de venta'], axis=1)
 
+#Crear tablas dinamicas de los dataframes Consolidado_CBTE_C, Consolidado_ALIC_C , Consolidado_CBTE_V y Consolidado_ALIC_V con el índice en 'Archivo' y eliminar las columnas que no se necesitan 
+Consolidado_CBTE_CPS = Consolidado_CBTE_C.pivot_table(
+    index=['Archivo'], 
+    values=[
+        'Crédito Fiscal Computable' , 
+        'IVA comisión' , 
+        'Importe de Impuestos Internos' , 
+        'Importe de operaciones exentas' , 
+        'Importe de percepciones de Impuestos Municipales' , 
+        'Importe de percepciones de Ingresos Brutos' , 
+        'Importe de percepciones o pagos a cuenta de otros impuestos nacionales' , 
+        'Importe de percepciones o pagos a cuenta del Impuesto al Valor Agregado' , 
+        'Importe total de conceptos que no integran el precio neto gravado' , 
+        'Importe total de la operación' , 
+        'Otros Tributos' , 
+        'Tipo de comprobante'] , 
+    aggfunc={
+        'Crédito Fiscal Computable':np.sum , 
+        'IVA comisión':np.sum , 
+        'Importe de Impuestos Internos':np.sum , 
+        'Importe de operaciones exentas':np.sum , 
+        'Importe de percepciones de Impuestos Municipales':np.sum , 
+        'Importe de percepciones de Ingresos Brutos':np.sum , 
+        'Importe de percepciones o pagos a cuenta de otros impuestos nacionales':np.sum , 
+        'Importe de percepciones o pagos a cuenta del Impuesto al Valor Agregado':np.sum , 
+        'Importe total de conceptos que no integran el precio neto gravado':np.sum , 
+        'Importe total de la operación':np.sum , 
+        'Otros Tributos':np.sum , 
+        'Tipo de comprobante':'count'
+        })
+#Eliminar columnas 'CUIT emisor/corredor' , 'Cantidad de alícuotas de IVA' , 'Código de documento del vendedor' , 'Denominación del emisor/corredor' , 'Despacho de importación' , 'Fecha de comprobante o fecha de oficialización' , 'Número de comprobante' , 'Número de identificación del vendedor' , 'Punto de venta' , 'Tipo de cambio'
+#Consolidado_CBTE_CPS = Consolidado_CBTE_CPS.drop(['CUIT emisor/corredor', 'Cantidad de alícuotas de IVA', 'Código de documento del vendedor', 'Denominación del emisor/corredor', 'Despacho de importación', 'Fecha de comprobante o fecha de oficialización', 'Número de comprobante', 'Número de identificación del vendedor', 'Punto de venta', 'Tipo de cambio'], axis=1)
+
+Consolidado_ALIC_CPS = Consolidado_ALIC_C.pivot_table(
+    index=[
+        'Archivo' , 
+        'Alícuota de IVA'], 
+    values=[
+        'Importe neto gravado' , 
+        'Impuesto liquidado' , 
+        'Tipo de comprobante'] , 
+    aggfunc={
+        'Importe neto gravado':np.sum , 
+        'Impuesto liquidado':np.sum , 
+        'Tipo de comprobante':'count'
+        })
+#Eliminar columnas 'Código de documento del vendedor' , 'Número de comprobante' , 'Número de identificación del vendedor' , 'Punto de venta'
+#Consolidado_ALIC_CPS = Consolidado_ALIC_CPS.drop(['Código de documento del vendedor', 'Número de comprobante', 'Número de identificación del vendedor', 'Punto de venta'], axis=1) 
+
+Consolidado_CBTE_VPS = Consolidado_CBTE_V.pivot_table(
+    index=['Archivo'], 
+    values=[
+        'Importe de operaciones exentas' , 
+        'Importe de percepciones de Ingresos Brutos' , 
+        'Importe de percepciones impuestos Municipales' , 
+        'Importe de percepciones o pagos a cuenta de impuestos Nacionales' , 
+        'Importe impuestos internos' , 
+        'Importe total de conceptos que no integran el precio neto gravado' , 
+        'Importe total de la operación' , 
+        'Número de identificación del comprador' , 
+        'Otros Tributos' , 
+        'Percepción a no categorizados' , 
+        'Tipo de comprobante'] ,
+    aggfunc={
+        'Importe de operaciones exentas':np.sum , 
+        'Importe de percepciones de Ingresos Brutos':np.sum , 
+        'Importe de percepciones impuestos Municipales':np.sum , 
+        'Importe de percepciones o pagos a cuenta de impuestos Nacionales':np.sum , 
+        'Importe impuestos internos':np.sum , 
+        'Importe total de conceptos que no integran el precio neto gravado':np.sum , 
+        'Importe total de la operación':np.sum , 
+        'Número de identificación del comprador':np.sum , 
+        'Otros Tributos':np.sum , 
+        'Percepción a no categorizados':np.sum , 
+        'Tipo de comprobante':'count' 
+        })
+#Eliminar columnas 'Cantidad de alícuotas de IVA' , 'Código de documento del comprador' , 'Fecha de Vencimiento o Pago' , 'Fecha de comprobante' , 'Número de comprobante' , 'Número de comprobante hasta' , 'Punto de venta' , 'Tipo de cambio'
+#Consolidado_CBTE_VPS = Consolidado_CBTE_VPS.drop(['Cantidad de alícuotas de IVA', 'Código de documento del comprador', 'Fecha de Vencimiento o Pago', 'Fecha de comprobante', 'Número de comprobante', 'Número de comprobante hasta', 'Punto de venta', 'Tipo de cambio'], axis=1)
+
+Consolidado_ALIC_VPS = Consolidado_ALIC_V.pivot_table(
+    index=[
+        'Archivo' , 
+        'Alícuota de IVA'], 
+    values=[
+        'Importe neto gravado' , 
+        'Impuesto liquidado' , 
+        'Tipo de comprobante'] , 
+    aggfunc={
+        'Importe neto gravado':np.sum , 
+        'Impuesto liquidado':np.sum , 
+        'Tipo de comprobante':'count'
+    }
+    )
+#Eliminar columnas 'Número de comprobante' , 'Punto de venta'
+#Consolidado_ALIC_VPS = Consolidado_ALIC_VPS.drop(['Número de comprobante', 'Punto de venta'], axis=1)
+
+
 #Exportar los dataframes consolidados a un archivo excel
-Archivo_final = pd.ExcelWriter('Consolidado.xlsx', engine='openpyxl')
+Archivo_final = pd.ExcelWriter('Consolidado Detallado.xlsx', engine='openpyxl')
 Consolidado_CBTE_C.to_excel(Archivo_final, sheet_name='CBTE_C' , index=False)
 Consolidado_CBTE_CP.to_excel(Archivo_final, sheet_name='CBTE_C TD')
 Consolidado_ALIC_C.to_excel(Archivo_final, sheet_name='ALIC_C' , index=False)
@@ -155,3 +252,12 @@ Consolidado_CBTE_VP.to_excel(Archivo_final, sheet_name='CBTE_V TD')
 Consolidado_ALIC_V.to_excel(Archivo_final, sheet_name='ALIC_V' , index=False)
 Consolidado_ALIC_VP.to_excel(Archivo_final, sheet_name='ALIC_V TD')
 Archivo_final.save()
+
+#Exportar a 'Consolidado Simple.xlsx'
+Archivo_Final_Simple = pd.ExcelWriter('Consolidado Simple.xlsx', engine='openpyxl')
+Consolidado_CBTE_CPS.to_excel(Archivo_Final_Simple, sheet_name='CBTE_C')
+Consolidado_ALIC_CPS.to_excel(Archivo_Final_Simple, sheet_name='ALIC_C')
+Consolidado_CBTE_VPS.to_excel(Archivo_Final_Simple, sheet_name='CBTE_V')
+Consolidado_ALIC_VPS.to_excel(Archivo_Final_Simple, sheet_name='ALIC_V')
+Archivo_Final_Simple.save()
+
