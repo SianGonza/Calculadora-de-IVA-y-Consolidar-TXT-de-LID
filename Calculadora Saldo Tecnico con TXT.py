@@ -20,7 +20,8 @@ def ProcesarRetenciones():
             df['Cliente'] = file.split('-')[4].strip().replace('.xls', '')
             Conslidado = pd.concat([Conslidado, df], ignore_index=True)
 
-    del df, file
+    
+    #del df, file
 
     # Crear una tabla dinámica con el CUIT y el 'Importe Ret./Perc.'
     Consolidado_TD = pd.pivot_table(Conslidado, values='Importe Ret./Perc.', index=['CUIT contribuyente' , 'Cliente'], aggfunc=np.sum)
@@ -256,3 +257,5 @@ def CalculaSaldos():
     return Saldo
 
 SaldoIVA = CalculaSaldos()
+
+SaldoIVA.to_excel('SaldoIVA.xlsx', index=False)
