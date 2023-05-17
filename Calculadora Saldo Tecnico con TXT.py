@@ -79,7 +79,7 @@ def ProcesarTXT():
         ALIC = pd.read_fwf(path + '/' + i, widths=Alicuota_C, header=None , encoding=("latin1") , names = Alicuota_desc_C)
         ALIC['Archivo'] = i
         #Dividir la columna 'Archivo' con el separador '-' y crear columnas con los valores obtenidos como 'Fin Cuit', 'CUIT contribuyente', 'Periodo' y 'Cliente' y eliminar los espacios en blanco al inicio y al final de cada valor
-        ALIC['Fin Cuit'] = ALIC['Archivo'].str.split('-').str[0].str.strip()
+        ALIC['Fin Cuit'] = ALIC['Archivo'].str.split('-').str[0].str.strip().astype(int)
         ALIC['CUIT contribuyente'] = ALIC['Archivo'].str.split('-').str[1].str.strip().astype('int64')
         ALIC['Periodo'] = ALIC['Archivo'].str.split('-').str[3].str.strip()
         ALIC['Cliente'] = ALIC['Archivo'].str.split('-').str[4].str.strip().str.replace(' Alicuota SOS.txt', '' , regex=False)
@@ -102,7 +102,7 @@ def ProcesarTXT():
         ALIC = pd.read_fwf(path + '/' + i, widths=Alicuota_V, header=None , encoding=("latin1") , names = Alicuota_desc_V)
         ALIC['Archivo'] = i
         #Dividir la columna 'Archivo' con el separador '-' y crear columnas con los valores obtenidos como 'Fin Cuit', 'CUIT contribuyente', 'Periodo' y 'Cliente' y eliminar los espacios en blanco al inicio y al final de cada valor
-        ALIC['Fin Cuit'] = ALIC['Archivo'].str.split('-').str[0].str.strip()
+        ALIC['Fin Cuit'] = ALIC['Archivo'].str.split('-').str[0].str.strip().astype(int)
         ALIC['CUIT contribuyente'] = ALIC['Archivo'].str.split('-').str[1].str.strip().astype('int64')
         ALIC['Periodo'] = ALIC['Archivo'].str.split('-').str[3].str.strip()
         ALIC['Cliente'] = ALIC['Archivo'].str.split('-').str[4].str.strip().str.replace(' Alicuota SOS.txt', '' , regex=False)
@@ -257,5 +257,8 @@ def CalculaSaldos():
     return Saldo
 
 SaldoIVA = CalculaSaldos()
+
+#SaldoIVA = SaldoIVA.sort_values(by=["Fin Cuit" , "CUIT contribuyente"])
+#SaldoIVA.to_excel("Resultados Calculadora de IVA.xlsx" , index=False)
 
 SaldoIVA.to_excel('SaldoIVA.xlsx', index=False)

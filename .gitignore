@@ -10,6 +10,9 @@ Consolidado TD.xlsx
 Saldo.xlsx
 RET/*
 Saldos Iniciales.xlsx
+RETPER/*
+Resultados Calculadora de IVA.xlsx
+__pycache__/*
 Consolidar libros.py
 Consolidado Detallado.xlsx
 Consolidado Simple.xlsx
