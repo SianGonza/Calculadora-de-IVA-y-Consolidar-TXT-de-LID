@@ -4,7 +4,7 @@ Script para realizar masivamente los cálculos de los Saldos de IVA en base a lo
 
 ---
 
-El licenciamiento es con PL (es decir que no se puede distribuir comercialmente, solamente GRATIS). y si se utiliza este el código, su derivado también debe ser distribuido abierta y gratuitamente. 
+El licenciamiento es bajo PL (es decir que no se puede distribuir comercialmente, solamente GRATIS). y si se utiliza este el código, su derivado también debe ser distribuido abierta y gratuitamente. 
 
 ---
 
@@ -57,9 +57,15 @@ Los pasos para ejecutar el Script suele ser el siguiente:
 
 5.  Activar el entorno virtual (depdende del sistema operativo):
 
-        - Windows: EntornoVirtual\Scripts\activate
+    - Windows: 
+    ```
+    EntornoVirtual\Scripts\activate
+    ```
 
-        - Linux: source EntornoVirtual/bin/activate 
+    - Linux: 
+    ```
+    source EntornoVirtual/bin/activate 
+    ```
 
 6. Instalar las dependencias/Librerías del proyecto (generalmente se hace con el comando):
 
